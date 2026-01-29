@@ -70,7 +70,7 @@ struct HomeView: View {
                     .padding(.horizontal)
                 }
                 .fullScreenCover(isPresented: $showingCreateList) {
-                    CreateListView(showingAddOverlay: $showingAddOverlay)
+                    CreateListView()
                 }
                 .fullScreenCover(isPresented: $showingAddRecipe) {
                     AddRecipeView()

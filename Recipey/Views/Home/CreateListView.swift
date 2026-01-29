@@ -15,7 +15,6 @@ struct CreateListView: View {
     @State var selectedPhoto: PhotosPickerItem?
     @State var title: String = ""
     @State var selectedPhotoData: Data?
-    @Binding var showingAddOverlay: Bool
 
     var body: some View {
         NavigationStack {
@@ -62,7 +61,6 @@ struct CreateListView: View {
                         modelContext.insert(list)
                         // bad practice probably
                         try? modelContext.save()
-                        showingAddOverlay = false
                         dismiss()
                     } else {
                         // error
@@ -101,6 +99,5 @@ struct CreateListView: View {
 }
 
 #Preview {
-    @Previewable @State var showingAddOverlay: Bool = false
-    CreateListView(showingAddOverlay: $showingAddOverlay)
+    CreateListView()
 }
