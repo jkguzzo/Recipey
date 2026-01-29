@@ -29,10 +29,8 @@ struct ListCardView: View {
                     .fontWeight(.semibold)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 15)
-                    .background {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(.ultraThinMaterial)
-                    }
+                    .glassEffect(.regular, in: .rect(cornerRadius: 10))
+
                 Spacer()
             }
             .padding([.leading, .bottom, .trailing], 8)

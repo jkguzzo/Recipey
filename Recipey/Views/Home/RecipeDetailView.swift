@@ -33,10 +33,7 @@ struct RecipeDetailView: View {
                                     .fontWeight(.semibold)
                                     .padding(.vertical, 8)
                                     .padding(.horizontal, 8)
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(.ultraThinMaterial)
-                                    }
+                                    .glassEffect(.regular, in: .rect(cornerRadius: 10))
                                 Spacer()
                                 Button {
                                     recipe.isFavorite.toggle()
@@ -47,10 +44,8 @@ struct RecipeDetailView: View {
                                         .foregroundStyle(recipe.isFavorite ? .red : colorScheme == .light ? .black :  .white)
                                         .padding(.vertical, 8)
                                         .padding(.horizontal, 8)
-                                        .background {
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .fill(.ultraThinMaterial)
-                                        }
+                                        .glassEffect(.regular, in: .rect(cornerRadius: 10))
+
                                 }
                             }
                             .padding([.leading, .bottom, .trailing], 8)
@@ -70,8 +65,10 @@ struct RecipeDetailView: View {
                         Text("Ingredients")
                             .font(.title3)
                             .fontWeight(.semibold)
-                        VStack(spacing: 8) {
-                            Text("• Item")
+                        VStack(alignment: .leading, spacing: 8) {
+                            ForEach(recipe.extendedIngredients, id: \.id) { ingredient in
+                                Text("• \(ingredient.original)")
+                            }
                         }
                         .padding(.leading, 20)
                         Divider()
@@ -103,7 +100,10 @@ struct RecipeDetailView: View {
 #Preview {
     let uiImage = UIImage(named: "pancakes")
     let imageData = uiImage?.pngData()
-    let recipe = Recipe(title: "Fluffy Pancakes", image: imageData, servings: 4, readyInMinutes: 20, instructions: "", extendedIngredients: [], sourceUrl: "example.com")
+    let measure = Measure(amount: 2.0, unitLong: "cups", unitShort: "cup")
+    let measureOption = MeasureOption(metric: measure, us: measure)
+    let ingredient = Ingredient(id: 1, measures: measureOption, unit: "cups", original: "2 1/4 cup flour")
+    let recipe = Recipe(title: "Fluffy Pancakes", image: imageData, servings: 4, readyInMinutes: 20, instructions: "", extendedIngredients: [ingredient], sourceUrl: "example.com")
     
     RecipeDetailView(recipe: recipe)
 }
