@@ -75,6 +75,7 @@ struct CreateListView: View {
                         .stroke(.primary, lineWidth: 1)
                     )
             }
+            .disabled(title.isEmpty || selectedPhotoData == nil)
             
             Spacer()
         }
