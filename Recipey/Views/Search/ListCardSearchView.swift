@@ -60,6 +60,6 @@ struct ListCardSearchView: View {
 #Preview {
     let uiImage = UIImage(named: "pancakes")
     let imageData = uiImage?.pngData()
-    let recipe = Recipe(title: "Fluffy Pancakes", image: imageData, servings: 4, readyInMinutes: 20, instructions: "", extendedIngredients: [], sourceUrl: "example.com")
+    let recipe = Recipe(title: "Fluffy Pancakes", image: imageData, servings: 4, readyInMinutes: 20, analyzedInstructions: [], extendedIngredients: [], sourceUrl: "example.com")
     ListCardSearchView(recipe: recipe)
 }

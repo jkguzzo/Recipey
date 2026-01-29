@@ -15,70 +15,61 @@ struct AddRecipeView: View {
     @State var isLoading: Bool = false
 
     var body: some View {
-        if isLoading {
-            ProgressView()
-        } else {
-            VStack(spacing: 35) {
-                Spacer()
-                
-                TextField("Enter your title...", text: $url)
-                    .padding(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(.primary, lineWidth: 1)
-                    )
-                
-                Button {
-                    Task {
-                        isLoading = true
-                        if let recipeDTO = try await RecipeService.shared.getRecipe(for: url) {
-                            var imageData: Data? = nil
-                            if let imageURL = URL(string: recipeDTO.image) {
-                                let (data, _) = try await URLSession.shared.data(from: imageURL)
-                                imageData = data
-                            }
-                            isLoading = false
-                            
-                            let recipe = Recipe(from: recipeDTO, imageData: imageData)
-                            modelContext.insert(recipe)
-                            dismiss()
-                        }
-                    }
-                } label: {
-                    Text("Add Recipe")
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 30)
+        NavigationStack {
+            if isLoading {
+                ProgressView()
+            } else {
+                VStack(spacing: 35) {
+                    Spacer()
+
+                    TextField("Enter your title...", text: $url)
+                        .padding(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(.primary, lineWidth: 1)
                         )
+
+                    Button {
+                        Task {
+                            isLoading = true
+                            if let recipeDTO = try await RecipeService.shared.getRecipe(for: url) {
+                                var imageData: Data? = nil
+                                if let imageURL = URL(string: recipeDTO.image) {
+                                    let (data, _) = try await URLSession.shared.data(from: imageURL)
+                                    imageData = data
+                                }
+                                isLoading = false
+
+                                let recipe = Recipe(from: recipeDTO, imageData: imageData)
+                                modelContext.insert(recipe)
+                                dismiss()
+                            }
+                        }
+                    } label: {
+                        Text("Add Recipe")
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 30)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.primary, lineWidth: 1)
+                            )
+                    }
+                    .disabled(url.isEmpty)
+
+                    Spacer()
                 }
-                .disabled(url.isEmpty)
-                
-                Spacer()
-            }
-            // TODO: change to liquid glass toolbar button for consistency
-            .overlay {
-                VStack {
-                    HStack {
-                        Spacer()
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             dismiss()
                         } label: {
                             Image(systemName: "xmark")
-                                .font(.title3)
-                                .padding(10)
-                                .background {
-                                    Circle()
-                                        .stroke(.primary)
-                                }
                         }
                     }
-                    Spacer()
                 }
+                .padding(.horizontal)
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
-            .padding(.horizontal)
         }
     }
 }

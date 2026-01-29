@@ -14,19 +14,19 @@ class Recipe {
     @Attribute(.externalStorage) var image: Data?
     var servings: Int
     var readyInMinutes: Int
-    var instructions: String
+    var analyzedInstructions: [AnalyzedInstructions]
     var extendedIngredients: [Ingredient]
     var sourceUrl: String
     var id: String { sourceUrl }
     var isFavorite: Bool = false
     var dateAdded: Date = Date.now
     
-    init(title: String, image: Data?, servings: Int, readyInMinutes: Int, instructions: String, extendedIngredients: [Ingredient], sourceUrl: String) {
+    init(title: String, image: Data?, servings: Int, readyInMinutes: Int, analyzedInstructions: [AnalyzedInstructions], extendedIngredients: [Ingredient], sourceUrl: String) {
         self.title = title
         self.image = image
         self.servings = servings
         self.readyInMinutes = readyInMinutes
-        self.instructions = instructions
+        self.analyzedInstructions = analyzedInstructions
         self.extendedIngredients = extendedIngredients
         self.sourceUrl = sourceUrl
     }
@@ -68,5 +68,27 @@ class Measure {
         self.amount = amount
         self.unitLong = unitLong
         self.unitShort = unitShort
+    }
+}
+
+@Model
+class AnalyzedInstructions {
+    var name: String
+    var steps: [Step]
+    
+    init(name: String, steps: [Step]) {
+        self.name = name
+        self.steps = steps
+    }
+}
+
+@Model
+class Step {
+    var number: Int
+    var step: String
+    
+    init(number: Int, step: String) {
+        self.number = number
+        self.step = step
     }
 }

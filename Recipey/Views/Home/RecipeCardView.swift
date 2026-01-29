@@ -52,6 +52,6 @@ struct RecipeCardView: View {
 #Preview {
     let uiImage = UIImage(named: "pancakes")
     let imageData = uiImage?.pngData()
-    let recipe = Recipe(title: "Fluffy Pancakes", image: imageData, servings: 4, readyInMinutes: 30, instructions: "Test instructions", extendedIngredients: [], sourceUrl: "https://www.test.com")
+    let recipe = Recipe(title: "Fluffy Pancakes", image: imageData, servings: 4, readyInMinutes: 30, analyzedInstructions: [], extendedIngredients: [], sourceUrl: "https://www.test.com")
     RecipeCardView(recipe: recipe)
 }

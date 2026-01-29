@@ -96,7 +96,7 @@ func inMemoryContainerForPreviews() -> ModelContainer {
 
     for item in sampleRecipes {
         let (title, minutes, servings) = item
-        let recipe = Recipe(title: title, image: imageData, servings: servings, readyInMinutes: minutes, instructions: "", extendedIngredients: [], sourceUrl: "example.com")
+        let recipe = Recipe(title: title, image: imageData, servings: servings, readyInMinutes: minutes, analyzedInstructions: [], extendedIngredients: [], sourceUrl: "example.com")
         container.mainContext.insert(recipe)
     }
     

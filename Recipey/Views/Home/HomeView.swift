@@ -56,6 +56,7 @@ struct HomeView: View {
                             Button {
                                 withAnimation(.none) { showingAddOverlay = true }
                             } label: {
+                                // TODO: change to be glass button
                                 Image(systemName: "plus")
                                     .font(.title)
                                     .padding(10)

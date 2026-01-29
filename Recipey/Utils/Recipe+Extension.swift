@@ -13,7 +13,7 @@ extension Recipe {
         let title = dto.title
         let servings = dto.servings
         let readyInMinutes = dto.readyInMinutes
-        let instructions = dto.instructions
+        let analyzedInstructions = dto.analyzedInstructions.map { AnalyzedInstructions(from: $0) }
         let extendedIngredients = dto.extendedIngredients.map { Ingredient(from: $0) }
         let sourceUrl = dto.sourceUrl
         
@@ -22,7 +22,7 @@ extension Recipe {
             image: imageData,
             servings: servings,
             readyInMinutes: readyInMinutes,
-            instructions: instructions,
+            analyzedInstructions: analyzedInstructions,
             extendedIngredients: extendedIngredients,
             sourceUrl: sourceUrl
         )
@@ -56,5 +56,17 @@ extension Measure {
             unitLong: dto.unitLong,
             unitShort: dto.unitShort
         )
+    }
+}
+
+extension AnalyzedInstructions {
+    convenience init(from dto: AnalyzedInstructionsDTO) {
+        self.init(name: dto.name, steps: dto.steps.map { Step(from: $0) })
+    }
+}
+
+extension Step {
+    convenience init(from dto: StepDTO) {
+        self.init(number: dto.number, step: dto.step)
     }
 }

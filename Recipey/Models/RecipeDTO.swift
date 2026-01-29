@@ -12,7 +12,7 @@ struct RecipeDTO: Codable, Identifiable {
     let image: String
     let servings: Int
     let readyInMinutes: Int
-    let instructions: String
+    let analyzedInstructions: [AnalyzedInstructionsDTO]
     let extendedIngredients: [IngredientDTO]
     let sourceUrl: String
     var id: String { sourceUrl }
@@ -34,4 +34,14 @@ struct MeasureDTO: Codable {
     let amount: Double
     let unitLong: String
     let unitShort: String
+}
+
+struct AnalyzedInstructionsDTO: Codable {
+    let name: String
+    let steps: [StepDTO]
+}
+
+struct StepDTO: Codable {
+    let number: Int
+    let step: String
 }
