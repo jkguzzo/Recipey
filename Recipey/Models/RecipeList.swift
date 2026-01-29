@@ -12,7 +12,7 @@ import SwiftData
 class RecipeList: Identifiable {
     var id: UUID = UUID()
     @Attribute(.unique) var title: String
-    @Relationship(deleteRule: .cascade) var recipes: [Recipe] = []
+    @Relationship(deleteRule: .nullify) var recipes: [Recipe] = []
     @Attribute(.externalStorage) var image: Data?
     
     init(title: String, image: Data?) {

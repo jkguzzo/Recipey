@@ -90,13 +90,11 @@ struct HomeView: View {
             }
 
             if showingAddOverlay {
-                // Dimming background that dismisses on tap
                 Color.black.opacity(0.35)
                     .ignoresSafeArea()
                     .onTapGesture {
                         withAnimation(.none) { showingAddOverlay = false }
                     }
-
                 AddOverlay(showingAddOverlay: $showingAddOverlay, showingCreateList: $showingCreateList, showingAddRecipe: $showingAddRecipe)
                     .frame(width: 220)
                     .background(
@@ -141,14 +139,13 @@ struct AddOverlay: View {
                             .stroke(.primary, lineWidth: 1)
                     )
             }
-
             Button {
                 showingAddRecipe = true
                 showingAddOverlay = false
             } label: {
                 Text("New Recipe")
                     .foregroundStyle(.primary)
-                    .frame(maxWidth: .infinity) // expand to container width
+                    .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
