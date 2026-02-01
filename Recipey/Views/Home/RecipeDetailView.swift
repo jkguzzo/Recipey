@@ -82,12 +82,13 @@ struct RecipeDetailView: View {
                                     Text(instruction.name)
                                         .font(.headline)
                                 }
-                                ForEach(instruction.steps, id: \.number) { step in
+                                ForEach(instruction.steps.sorted(by: { $0.number < $1.number }), id: \.number) { step in
                                     Text("\(step.number). \(step.step)")
                                 }
                             }
                         }
                         .padding(.leading, 20)
+                        .padding(.bottom, 100)
                     }
                     .padding(.horizontal)
 
