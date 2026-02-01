@@ -12,20 +12,27 @@ import UIKit
 struct ListCardSearchView: View {
     @Environment(\.modelContext) var modelContext
     let recipe: Recipe
-    
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            // TODO: image doesn't look right with vertical images
+        VStack(spacing: 0) {
             if let imageData = recipe.image,
                let uiImage = UIImage(data: imageData) {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
+                    .frame(height: 125)
+                    .clipped()
+            } else {
+                Color.secondary.opacity(0.15)
+                    .frame(height: 125)
             }
+
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text(recipe.title)
                         .fontWeight(.semibold)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
                     Spacer()
                     Button {
                         recipe.isFavorite.toggle()
@@ -37,15 +44,25 @@ struct ListCardSearchView: View {
                     }
                     .buttonStyle(.plain)
                 }
+
                 Text("Servings: \(recipe.servings)")
                     .foregroundStyle(.secondary)
+                    .lineLimit(1)
+
                 Label("\(recipe.readyInMinutes) mins", systemImage: "clock")
                     .foregroundStyle(.secondary)
-
+                    .lineLimit(1)
             }
-            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
         }
-        .cornerRadius(10)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color(.systemBackground))
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .contentShape(RoundedRectangle(cornerRadius: 10))
+        .glassEffect()
         .contextMenu {
             Button(role: .destructive) {
                 modelContext.delete(recipe)
