@@ -71,26 +71,22 @@ struct HomeView: View {
                                         showingCreateList = true
                                     } label: {
                                         Text("New List")
+                                            .fontWeight(.semibold)
                                             .foregroundStyle(.primary)
                                             .frame(maxWidth: .infinity)
                                             .padding(.vertical, 10)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 10)
-                                                    .stroke(.primary, lineWidth: 1)
-                                            )
+                                            .glassEffect()
                                             .padding(.horizontal)
                                     }
                                     Button {
                                         showingAddRecipe = true
                                     } label: {
                                         Text("New Recipe")
+                                            .fontWeight(.semibold)
                                             .foregroundStyle(.primary)
                                             .frame(maxWidth: .infinity)
                                             .padding(.vertical, 10)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 10)
-                                                    .stroke(.primary, lineWidth: 1)
-                                            )
+                                            .glassEffect()
                                             .padding(.horizontal)
                                     }
                                 }
@@ -98,7 +94,6 @@ struct HomeView: View {
                                 .presentationCompactAdaptation(.popover)
                                 .buttonStyle(.plain)
                             }
-                            
                         }
                     }
                     .padding(.horizontal)
