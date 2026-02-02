@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ScheduleView: View {
     var body: some View {
-        Text("Implement Schedule View")
+        Text("Implement schedule view")
     }
 }
 

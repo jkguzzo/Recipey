@@ -54,7 +54,7 @@ struct HomeView: View {
                         HStack {
                             Spacer()
                             Button {
-                                withAnimation(.none) { showingAddOverlay = true }
+                                showingAddOverlay = true
                             } label: {
                                 // TODO: change to be glass button
                                 Image(systemName: "plus")
@@ -65,6 +65,40 @@ struct HomeView: View {
                                             .stroke(.primary)
                                     }
                             }
+                            .popover(isPresented: $showingAddOverlay, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
+                                VStack(spacing: 12) {
+                                    Button {
+                                        showingCreateList = true
+                                    } label: {
+                                        Text("New List")
+                                            .foregroundStyle(.primary)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 10)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .stroke(.primary, lineWidth: 1)
+                                            )
+                                            .padding(.horizontal)
+                                    }
+                                    Button {
+                                        showingAddRecipe = true
+                                    } label: {
+                                        Text("New Recipe")
+                                            .foregroundStyle(.primary)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 10)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .stroke(.primary, lineWidth: 1)
+                                            )
+                                            .padding(.horizontal)
+                                    }
+                                }
+                                .frame(width: 200, height: 125)
+                                .presentationCompactAdaptation(.popover)
+                                .buttonStyle(.plain)
+                            }
+                            
                         }
                     }
                     .padding(.horizontal)
@@ -88,21 +122,6 @@ struct HomeView: View {
                     Text("This action cannot be undone.")
                 }
             }
-
-            if showingAddOverlay {
-                Color.black.opacity(0.35)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        withAnimation(.none) { showingAddOverlay = false }
-                    }
-                AddOverlay(showingAddOverlay: $showingAddOverlay, showingCreateList: $showingCreateList, showingAddRecipe: $showingAddRecipe)
-                    .frame(width: 220)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(.systemBackground))
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            }
         }
     }
 
@@ -117,44 +136,6 @@ struct HomeView: View {
             }
         }
         pendingDeleteListID = nil
-    }
-}
-
-struct AddOverlay: View {
-    @Binding var showingAddOverlay: Bool
-    @Binding var showingCreateList: Bool
-    @Binding var showingAddRecipe: Bool
-    var body: some View {
-        VStack(spacing: 20) {
-            Button {
-                showingCreateList = true
-                showingAddOverlay = false
-            } label: {
-                Text("New List")
-                    .foregroundStyle(.primary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(.primary, lineWidth: 1)
-                    )
-            }
-            Button {
-                showingAddRecipe = true
-                showingAddOverlay = false
-            } label: {
-                Text("New Recipe")
-                    .foregroundStyle(.primary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(.primary, lineWidth: 1)
-                    )
-            }
-        }
-        .padding(20)
-        .buttonStyle(.plain)
     }
 }
 
