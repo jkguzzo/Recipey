@@ -11,8 +11,10 @@ import SwiftUI
 struct AddRecipeView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
-    @State var url: String = ""
-    @State var isLoading: Bool = false
+    @State private var url: String = ""
+    @State private var isLoading: Bool = false
+    @State private var fetchedRecipe: Recipe? = nil
+    @State private var navigateToDetail: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -31,19 +33,7 @@ struct AddRecipeView: View {
 
                     Button {
                         Task {
-                            isLoading = true
-                            if let recipeDTO = try await RecipeService.shared.getRecipe(for: url) {
-                                var imageData: Data? = nil
-                                if let imageURL = URL(string: recipeDTO.image) {
-                                    let (data, _) = try await URLSession.shared.data(from: imageURL)
-                                    imageData = data
-                                }
-                                isLoading = false
-
-                                let recipe = Recipe(from: recipeDTO, imageData: imageData)
-                                modelContext.insert(recipe)
-                                dismiss()
-                            }
+                            await fetchRecipeAndNavigate()
                         }
                     } label: {
                         Text("Add Recipe")
@@ -58,6 +48,11 @@ struct AddRecipeView: View {
 
                     Spacer()
                 }
+                .navigationDestination(isPresented: $navigateToDetail) {
+                    if let recipe = fetchedRecipe {
+                        RecipeDetailView(recipe: recipe)
+                    }
+                }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
@@ -70,6 +65,25 @@ struct AddRecipeView: View {
                 .padding(.horizontal)
                 .buttonStyle(.plain)
             }
+        }
+    }
+    
+    private func fetchRecipeAndNavigate() async {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            guard let recipeDTO = try await RecipeService.shared.getRecipe(for: url) else { return }
+            var imageData: Data? = nil
+            if let imageURL = URL(string: recipeDTO.image) {
+                let (data, _) = try await URLSession.shared.data(from: imageURL)
+                imageData = data
+            }
+            let recipe = Recipe(from: recipeDTO, imageData: imageData)
+            // Do NOT insert yet. Let the user choose lists in the next step.
+            self.fetchedRecipe = recipe
+            self.navigateToDetail = true
+        } catch {
+            // Handle error (alert/toast)
         }
     }
 }

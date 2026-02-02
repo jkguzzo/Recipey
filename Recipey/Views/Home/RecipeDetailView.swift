@@ -11,6 +11,8 @@ import SwiftUI
 struct RecipeDetailView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
+    @State private var showingAddToList = false
     let recipe: Recipe
     
     var body: some View {
@@ -88,11 +90,19 @@ struct RecipeDetailView: View {
                             }
                         }
                         .padding(.leading, 20)
-                        .padding(.bottom, 100)
                     }
                     .padding(.horizontal)
-
-                    Spacer()
+                    Button {
+                        showingAddToList = true
+                    } label: {
+                        Text("Add Recipe")
+                            .padding()
+                            .glassEffect()
+                    }
+                    .padding(.bottom, 100)
+                }
+                .popover(isPresented: $showingAddToList) {
+                    AddRecipeToListView(recipe: recipe)
                 }
             }
             .edgesIgnoringSafeArea(.all)

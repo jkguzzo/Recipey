@@ -14,13 +14,21 @@ struct ListDetailView: View {
     @State private var showRenamePopover: Bool = false
     @State private var newTitle: String = ""
     var body: some View {
-            VStack {
+        VStack(spacing: 0) {
                 if list.recipes.count == 0 {
                     ContentUnavailableView("No Recipes Yet", systemImage: "fork.knife.circle.fill", description: Text("Add a recipe to this list to see it displayed here"))
                 } else {
-                    // TODO: show Recipes here
+                    ForEach(list.recipes) { recipe in
+                        NavigationLink {
+                            RecipeDetailView(recipe: recipe)
+                        } label: {
+                            RecipeCardView(recipe: recipe)
+                        }
+                    }
+                    Spacer()
                 }
             }
+            .buttonStyle(.plain)
             .navigationTitle(list.title)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
