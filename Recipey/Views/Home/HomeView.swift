@@ -131,5 +131,7 @@ struct HomeView: View {
 }
 
 #Preview {
+    let container = inMemoryContainerForPreviews()
     HomeView()
+        .modelContainer(container)
 }

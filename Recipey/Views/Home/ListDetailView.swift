@@ -36,7 +36,7 @@ struct ListDetailView: View {
                         Button {
                             showRenamePopover = true
                         } label: {
-                            Text("Rename List")
+                            Label("Rename List", systemImage: "pencil")
                         }
                     }
                     .popover(isPresented: $showRenamePopover, attachmentAnchor: .point(.trailing), arrowEdge: .top) {

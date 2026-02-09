@@ -27,7 +27,7 @@ struct RecipeDetailView: View {
                                     .scaledToFill()
                                     .frame(width: geo.size.width, height: geo.size.height)
                                     .clipped()
-                                    .ignoresSafeArea(edges: .top)
+                                    //.ignoresSafeArea(edges: .top)
                             }
                             HStack {
                                 Text(recipe.title)
@@ -105,6 +105,7 @@ struct RecipeDetailView: View {
                     AddRecipeToListView(recipe: recipe)
                 }
             }
+            // getting rid of this fixes navigation title disappearance bug, but keeping it for now bc this is the intended behavior for this view
             .edgesIgnoringSafeArea(.all)
         }
     }
