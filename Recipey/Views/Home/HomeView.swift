@@ -56,14 +56,10 @@ struct HomeView: View {
                             Button {
                                 showingAddOverlay = true
                             } label: {
-                                // TODO: change to be glass button
                                 Image(systemName: "plus")
                                     .font(.title)
-                                    .padding(10)
-                                    .background {
-                                        Circle()
-                                            .stroke(.primary)
-                                    }
+                                    .padding(12)
+                                    .glassEffect()
                             }
                             .popover(isPresented: $showingAddOverlay, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
                                 VStack(spacing: 12) {
