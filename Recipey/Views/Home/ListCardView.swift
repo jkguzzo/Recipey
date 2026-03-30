@@ -35,6 +35,9 @@ struct ListCardView: View {
             }
             .padding([.leading, .bottom, .trailing], 8)
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(list.title) list")
+        .accessibilityHint("View recipes")
         .contextMenu {
             Button("Rename", systemImage: "pencil") {
                 // rename list

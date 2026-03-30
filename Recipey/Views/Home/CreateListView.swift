@@ -31,12 +31,14 @@ struct CreateListView: View {
                                 .scaledToFit()
                                 .frame(width: 175)
                                 .cornerRadius(10)
+                                .accessibilityLabel("Selected cover photo")
                         } else {
                             VStack {
                                 Image(systemName: "photo.fill")
                                     .font(.system(size: 100))
                                     .foregroundStyle(.secondary)
                                     .font(.largeTitle)
+                                    .accessibilityHidden(true)
                                 Text("Add Photo")
                             }
                             .padding(20)
@@ -46,6 +48,9 @@ struct CreateListView: View {
                             )
                         }
                     }
+                    .accessibilityLabel(selectedPhotoData == nil ? "Add cover photo" : "Edit cover photo")
+                    .accessibilityHint("Opens photo library")
+                    .accessibilityValue(selectedPhotoData == nil ? "No photo selected" : "Photo selected")
                 }
                 
                 TextField("Enter your title...", text: $title)
@@ -54,6 +59,8 @@ struct CreateListView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(.primary, lineWidth: 1)
                     )
+                    .accessibilityLabel("List title")
+                    .accessibilityHint("Enter a name for your recipe list")
                 
                 Button {
                     if !title.isEmpty {
@@ -74,6 +81,16 @@ struct CreateListView: View {
                                 .stroke(.primary, lineWidth: 1)
                         )
                 }
+                .accessibilityLabel("Create list")
+                .accessibilityHint(
+                    title.isEmpty && selectedPhotoData == nil
+                    ? "Disabled. Enter a title and select a photo first"
+                    : title.isEmpty
+                    ? "Disabled. Enter a title first"
+                    : selectedPhotoData == nil
+                    ? "Disabled. Select a photo first"
+                    : "Creates a new recipe list"
+                )
                 .disabled(title.isEmpty || selectedPhotoData == nil)
                 
                 Spacer()
@@ -85,6 +102,8 @@ struct CreateListView: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
+                    .accessibilityLabel("Close")
+                    .accessibilityHint("Dismiss without creating a list")
                 }
             }
             .buttonStyle(.plain)

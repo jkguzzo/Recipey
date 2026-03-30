@@ -20,16 +20,21 @@ struct AddRecipeView: View {
         NavigationStack {
             if isLoading {
                 ProgressView()
+                    .accessibilityLabel("Loading recipe")
+                    .accessibilityHint("Please wait while the recipe is being retrieved")
             } else {
                 VStack(spacing: 35) {
                     Spacer()
 
-                    TextField("Enter your title...", text: $url)
+                    TextField("Enter URL", text: $url)
                         .padding(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(.primary, lineWidth: 1)
                         )
+                        .textContentType(.URL)
+                        .accessibilityLabel("Recipe URL")
+                        .accessibilityHint("Paste a valid recipe URL")
 
                     Button {
                         Task {
@@ -44,6 +49,8 @@ struct AddRecipeView: View {
                                     .stroke(.primary, lineWidth: 1)
                             )
                     }
+                    .accessibilityLabel("Add recipe")
+                    .accessibilityHint(url.isEmpty ? "Disabled. Enter a valid recipe URL first" : "Fetch recipe from the provided URL")
                     .disabled(url.isEmpty)
 
                     Spacer()
@@ -51,6 +58,7 @@ struct AddRecipeView: View {
                 .navigationDestination(isPresented: $navigateToDetail) {
                     if let recipe = fetchedRecipe {
                         RecipeDetailView(recipe: recipe)
+                            .accessibilityLabel("Recipe detail view")
                     }
                 }
                 .toolbar {
@@ -60,6 +68,8 @@ struct AddRecipeView: View {
                         } label: {
                             Image(systemName: "xmark")
                         }
+                        .accessibilityLabel("Close")
+                        .accessibilityHint("Dismiss without adding recipe")
                     }
                 }
                 .padding(.horizontal)

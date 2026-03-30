@@ -11,7 +11,6 @@ import UIKit
 
 func inMemoryContainerForPreviews() -> ModelContainer {
     
-    // uses UIKit to change image from assets into object with type "Data" for initializing RecipeList objects
     func pngDataFromAsset(named name: String) -> Data? {
         guard let image = UIImage(named: name) else { return nil }
         return image.pngData()

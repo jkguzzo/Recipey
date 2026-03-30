@@ -28,6 +28,10 @@ struct AddRecipeToListView: View {
                         }
                         Text(list.title)
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(isSelected(list) ? "\(list.title), selected" : "\(list.title), not selected")
+                    .accessibilityHint("Tap to \(isSelected(list) ? "deselect" : "select") \(list.title)")
+                    .accessibilityAddTraits(.isButton)
                 }
                 .padding(.horizontal)
             }
@@ -38,6 +42,9 @@ struct AddRecipeToListView: View {
                     .padding()
                     .glassEffect()
             }
+            .accessibilityLabel("Add Recipe")
+            .accessibilityHint(selectedListIDs.isEmpty ? "Disabled. Select at least one list first" : "Add recipe to all selected lists")
+            .accessibilityValue("\(selectedListIDs.count) list\(selectedListIDs.count == 1 ? "" : "s") selected")
             .disabled(selectedListIDs.isEmpty)
         }
         .buttonStyle(.plain)
@@ -64,11 +71,9 @@ struct AddRecipeToListView: View {
 
         do {
             try modelContext.save()
-            dismiss() // optionally dismiss after success
+            dismiss()
         } catch {
-            // Handle error (e.g., show an alert)
-            // For now, you could log or present a simple message
-            // print(\"Failed to save: \\(error)\")
+            print("Failed to save recipe to list(s): \(error)")
         }
     }
 }

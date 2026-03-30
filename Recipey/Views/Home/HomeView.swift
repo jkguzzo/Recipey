@@ -29,6 +29,10 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             NavigationStack {
+                if lists.isEmpty {
+                    ContentUnavailableView("No Lists Yet", systemImage: "menucard", description: Text("Create a list to see it displayed here"))
+                        .accessibilityLabel("No lists yet. Tap the plus button to create your first list")
+                }
                 ScrollView {
                     HStack(alignment: .top, spacing: 15) {
                         ForEach(0..<columns.count, id: \.self) { columnIndex in
@@ -44,6 +48,8 @@ struct HomeView: View {
                                     }
                                 }
                             }
+                            .accessibilityElement(children: .contain)
+                            .accessibilityLabel("Recipe lists")
                         }
                     }
                     .padding(.horizontal, 15)
@@ -61,6 +67,9 @@ struct HomeView: View {
                                     .padding(12)
                                     .glassEffect()
                             }
+                            .accessibilityLabel("Add")
+                            .accessibilityHint("Create a new list or add a recipe")
+                            .accessibilityAddTraits(.isButton)
                             .popover(isPresented: $showingAddOverlay, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
                                 VStack(spacing: 12) {
                                     Button {
